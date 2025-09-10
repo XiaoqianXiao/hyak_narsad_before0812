@@ -1,4 +1,5 @@
 #Nipype v1.10.0.
+import os
 from nipype.pipeline import engine as pe
 from nipype.algorithms.modelgen import SpecifyModel
 from nipype.interfaces import fsl, utility as niu, io as nio
@@ -21,6 +22,8 @@ def first_level_wf(in_files, output_dir, fwhm=6.0, brightness_threshold=1000):
     workflow = pe.Workflow(name='wf_1st_level')
     workflow.config['execution']['use_relative_paths'] = True
     workflow.config['execution']['remove_unnecessary_outputs'] = False
+    # Set crash directory to workdir to avoid read-only file system errors
+    workflow.config['execution']['crashdump_dir'] = os.path.join(os.path.dirname(output_dir), 'crash_files')
 
     datasource = pe.Node(niu.Function(function=_dict_ds, output_names=DATA_ITEMS),
                          name='datasource')
@@ -178,6 +181,8 @@ def first_level_wf_LSS(in_files, output_dir, trial_ID, fwhm=6.0, brightness_thre
     workflow = pe.Workflow(name='wf_1st_level_LSS')
     workflow.config['execution']['use_relative_paths'] = True
     workflow.config['execution']['remove_unnecessary_outputs'] = False
+    # Set crash directory to workdir to avoid read-only file system errors
+    workflow.config['execution']['crashdump_dir'] = os.path.join(os.path.dirname(output_dir), 'crash_files')
     import numpy as np
 
     datasource = pe.Node(niu.Function(function=_dict_ds_lss, output_names=DATA_ITEMS_LSS),
