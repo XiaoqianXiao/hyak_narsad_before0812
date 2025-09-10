@@ -1,0 +1,34 @@
+Bootstrap: localimage
+From: narsad-fmri_1st_level_0.0.sif
+
+%environment
+    export DEBIAN_FRONTEND=noninteractive
+    export FSLDIR=/usr/local/fsl
+    export PATH=${FSLDIR}/bin:$PATH
+    export FSLOUTPUTTYPE=NIFTI_GZ
+
+
+%files
+    run_1st_level.py /app/run_1st_level.py
+    first_level_workflows.py /app/first_level_workflows.py
+    utils.py /app/utils.py
+    run_LSS.py /app/run_LSS.py
+    Creat_LSS_slurm_scripts.py /app/Creat_LSS_slurm_scripts.py
+    Creat_LSS_2_slurm_scripts.py /app/Creat_LSS_2_slurm_scripts.py
+    LSS_2_cate_all_trials.py /app/LSS_2_cate_all_trials.py
+%post
+    chmod +x /app/run_1st_level.py /app/run_1st_level_single_trial.py /app/Creat_LSS_slurm_scripts.py
+
+%runscript
+    #!/bin/bash
+    CMD="$1"; shift || true
+    case "$CMD" in
+      standard)
+        exec python3 /app/run_1st_level.py "$@" ;;
+      single_trial)
+        exec python3 /app/run_1st_level_single_trial.py "$@" ;;
+      *)
+        echo "Usage: $(basename $0) {standard|single_trial} [args...]" >&2
+        exit 1
+        ;;
+    esac

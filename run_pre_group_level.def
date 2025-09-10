@@ -1,0 +1,18 @@
+Bootstrap: localimage
+From: narsad-fmri_1st_level_1.0.sif
+
+%environment
+    export DEBIAN_FRONTEND=noninteractive
+    export FSLDIR=/usr/local/fsl
+    export PATH=${FSLDIR}/bin:$PATH
+    export FSLOUTPUTTYPE=NIFTI_GZ
+
+%files
+    run_pre_group_level.py /app/run_pre_group_level.py
+    group_level_workflows.py /app/group_level_workflows.py
+
+%post
+    chmod +x /app/run_pre_group_level.py
+
+%runscript
+    exec python3 /app/run_pre_group_level.py "$@"
