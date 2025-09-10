@@ -100,6 +100,12 @@ def run_subject_workflow(sub, inputs, work_dir, output_dir):
     from first_level_workflows import first_level_wf  # Assumes workflows.py is in /app
     workflow = first_level_wf(inputs, output_dir)
     workflow.base_dir = os.path.join(work_dir, f'sub_{sub}')
+    
+    # Set crash directory to writable workdir
+    crash_dir = os.path.join(work_dir, 'crash_files')
+    os.makedirs(crash_dir, exist_ok=True)
+    workflow.config['execution']['crashdump_dir'] = crash_dir
+    
     workflow.run(**plugin_settings)
 
 # Main execution

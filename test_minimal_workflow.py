@@ -98,9 +98,12 @@ def test_standard_workflow():
     
     # Configure and run the workflow
     workflow.base_dir = str(test_dir / 'work_standard')
+    crash_dir = test_dir / 'crash_files_standard'
+    crash_dir.mkdir(exist_ok=True)
     workflow.config['execution'] = {
         'use_relative_paths': True,
-        'remove_unnecessary_outputs': False
+        'remove_unnecessary_outputs': False,
+        'crashdump_dir': str(crash_dir)
     }
     
     # Run with a single process for testing
@@ -141,9 +144,12 @@ def test_lss_workflow():
     
     # Configure and run the workflow
     workflow.base_dir = str(test_dir / 'work_lss')
+    crash_dir = test_dir / 'crash_files_lss'
+    crash_dir.mkdir(exist_ok=True)
     workflow.config['execution'] = {
         'use_relative_paths': True,
-        'remove_unnecessary_outputs': False
+        'remove_unnecessary_outputs': False,
+        'crashdump_dir': str(crash_dir)
     }
     
     # Run with a single process for testing
