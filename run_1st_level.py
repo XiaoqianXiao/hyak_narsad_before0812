@@ -75,7 +75,7 @@ def create_slurm_script(sub, inputs, work_dir, output_dir, task, container_path)
     slurm_script = f"""#!/bin/bash
 #SBATCH --job-name=first_level_sub_{sub}
 #SBATCH --account=fang
-#SBATCH --partition=cpu-g2
+#SBATCH --partition=ckpt-all
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
@@ -86,7 +86,7 @@ def create_slurm_script(sub, inputs, work_dir, output_dir, task, container_path)
 
 
 module load apptainer
-apptainer exec -B /gscratch/fang:/data -B /gscratch/scrubbed/fanglab/xiaoqian:/scrubbed_dir {container_path} \\
+apptainer exec -B /gscratch/fang:/data -B /gscratch/scrubbed/fanglab/xiaoqian:/scrubbed_dir -B /gscratch/scrubbed/fanglab/xiaoqian/repo/hyak_narsad_before0812:/app/run_1st_level.py {container_path} \\
     python3 /app/run_1st_level.py --subject {sub} --task {task}
 """
     script_path = os.path.join(work_dir, f'sub_{sub}_slurm.sh')
