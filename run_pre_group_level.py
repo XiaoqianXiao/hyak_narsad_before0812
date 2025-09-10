@@ -77,7 +77,7 @@ def collect_task_data(task, contrast, sub_list):
     return copes, varcopes
 
 
-use_guess = True
+use_guess = False
 if __name__ == "__main__":
     for task in tasks:
         if task == 'phase2':

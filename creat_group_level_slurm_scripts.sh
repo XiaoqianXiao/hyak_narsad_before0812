@@ -23,7 +23,7 @@ for task in "${tasks[@]}"; do
 #!/bin/bash
 #SBATCH --job-name=${job_name}
 #SBATCH --account=fang
-#SBATCH --partition=cpu-g2
+#SBATCH --partition=ckpt-all
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
